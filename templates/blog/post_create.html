@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Post{% endblock %}
+
+{% block content %}
+    <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">Create a New Post</h1>
+    <form method="post" class="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto">
+        {% csrf_token %}
+        <div class="mb-6">
+            <label for="{{ form.title.id_for_label }}" class="block text-gray-700 font-medium mb-2">Title</label>
+            {{ form.title.errors }}
+            <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" value="{{ form.title.value|default_if_none:'' }}" placeholder="Enter post title" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-6">
+            <label for="{{ form.content.id_for_label }}" class="block text-gray-700 font-medium mb-2">Content</label>
+            {{ form.content.errors }}
+            <textarea name="{{ form.content.name }}" id="{{ form.content.id_for_label }}" placeholder="Write your post content" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-40">{{ form.content.value|default_if_none:'' }}</textarea>
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition">Save Post</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog Home{% endblock %}
+
+{% block content %}
+    <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">Blog Posts</h1>
+    {% for post in posts %}
+        <div class="bg-white p-6 mb-6 rounded-lg shadow-md hover:shadow-lg transition">
+            <h2 class="text-2xl font-semibold text-blue-600">
+                <a href="{% url 'post_detail' post.pk %}" class="hover:underline">{{ post.title }}</a>
+            </h2>
+            <p class="text-gray-500 text-sm mb-2">By {{ post.author.username }} on {{ post.created_at|date:"F d, Y" }}</p>
+            <p class="text-gray-700">{{ post.content|truncatewords:30 }}</p>
+            <a href="{% url 'post_detail' post.pk %}" class="text-blue-500 hover:text-blue-700 text-sm font-medium mt-4 inline-block">Read More</a>
+        </div>
+    {% empty %}
+        <p class="text-gray-600 text-center">No posts yet. {% if user.is_authenticated %}<a href="{% url 'post_create' %}" class="text-blue-500 hover:underline">Create one?</a>{% endif %}</p>
+    {% endfor %}
+{% endblock %}

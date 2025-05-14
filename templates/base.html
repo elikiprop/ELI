@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Blog{% endblock %}</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for form error messages */
+        .errorlist {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <nav class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 sticky top-0 shadow-lg z-10">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'post_list' %}" class="text-3xl font-bold tracking-tight hover:text-blue-200 transition">My Blog</a>
+            <div class="flex space-x-6 items-center">
+                <a href="{% url 'price' %}" class="text-sm font-medium hover:text-blue-200 transition">Pricing</a>
+                {% if user.is_authenticated %}
+                    <span class="text-sm font-medium">Welcome, {{ user.username }}</span>
+                    <a href="{% url 'post_create' %}" class="text-sm font-medium hover:text-blue-200 transition">Create Post</a>
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="text-sm font-medium hover:text-blue-200 transition">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-sm font-medium hover:text-blue-200 transition">Login</a>
+                    <a href="{% url 'register' %}" class="text-sm font-medium hover:text-blue-200 transition">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <main class="container mx-auto p-6 max-w-4xl">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer class="bg-gray-800 text-white text-center p-4 mt-8">
+        <p>© 2025 Dev-Ndiema Blog. All rights reserved.</p>
+    </footer>
+</body>
+</html>
